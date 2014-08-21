@@ -13,22 +13,7 @@
     height: 100%;
     background-color: #c7c7c7;
 }
-   #track1 {
-   	position: relative;
-   	top: 50px;
-   	left:15px;
-  
-   }
-   #track2 {
-   	position: relative;
-   	top: 120px;
-   	left:15px;
-   }
-   #track3 {
-   	position: relative;
-   	top: 190px;
-   	left:15px;
-   }
+   
     .track {
 	height:50px;
 	width:110px;
@@ -80,7 +65,7 @@ function track(){
   };
   this.show = function () {
     var track = $("#track");
-    track.append('<div><button data-role="button" data-inline="true" data-mini="true" data-theme="b">'+this.trackname+'</button></div>').trigger('create');
+    track.append('<div><button class="button">'+this.trackname+'</button></div>').trigger('create');
     //("<img id='"+this.cssid+"' src='"+this.imgsrc+"'/>");
     this.element = $("#" + this.cssid);
     //this.element.css({display: 'block', position:'absolute',left:this.initialleft,top:this.initialtop });
@@ -95,7 +80,7 @@ function track(){
 $(document).ready (function(){
   var server = new ajaxServiceLayer();
   var tracksFromJSON = server.gettracks();
-  for (i=0;i<tracksFromJSON.length;i++){
+  for (i=0;i<(tracksFromJSON.yards[tracks]).length;i++){
     thegame.addtrack(tracksFromJSON[i]);
   }
   
@@ -131,7 +116,7 @@ function ajaxServiceLayer(){
     //fake the server for now
     //http://www.w3schools.com/json/json_syntax.asp
     retval = {
-    "yards": [
+    "yards": 
         {
             "yardid": "1",
             "yardname": "Yard1",
@@ -251,7 +236,7 @@ function ajaxServiceLayer(){
                 }
             ]
         }
-    ]
+    
 };
     console.log(retval);
     return retval;
@@ -282,7 +267,7 @@ function ajaxServiceLayer(){
              <input type="text" placeholder="Search..." required>
             <input type="button" value="Search">
 </form>
-  <br><h1 align="center">Facilty Name</h1></br>
+  '<br><h1 align="center">'+this.yardname+'</h1></br>'
 	 <div id="track"> </div>
 
 </body>
