@@ -60,11 +60,13 @@ function track(){
   var initialleft;
   var initialtop;
   var yardid;
+  var yardname;
   this.debug = function (){
      console.log ('my id is: ' + this.trackid);
   };
   this.show = function () {
     var track = $("#track");
+    console.log(this);
     track.append('<div><button class="button">'+this.trackname+'</button></div>').trigger('create');
     //("<img id='"+this.cssid+"' src='"+this.imgsrc+"'/>");
     this.element = $("#" + this.cssid);
@@ -80,7 +82,8 @@ function track(){
 $(document).ready (function(){
   var server = new ajaxServiceLayer();
   var tracksFromJSON = server.gettracks();
-  for (i=0;i<(tracksFromJSON.yards[tracks]).length;i++){
+  for (i=0;i<tracksFromJSON.yards.tracks.length;i++){
+    console.log(i);
     thegame.addtrack(tracksFromJSON[i]);
   }
   
@@ -99,7 +102,129 @@ function ajaxServiceLayer(){
     */
     //fake the server for now
     //http://www.w3schools.com/json/json_syntax.asp
-    retval = JSON.parse('{"trackid":"1","trackname":"j1","yardid":"1","initialleft":400,"initialtop":100}');
+    retval = {
+    "yards": 
+        {
+            "yardid": "1",
+            "yardname": "Yard1",
+            "yardlocation": "location1",
+            "tracks": [
+                {
+                    "trackid": "1",
+                    "trackname": "j1",
+                    "units": [
+                        {
+                            "unitid": "1",
+                            "unitname": "u1"
+                        },
+                        {
+                            "unitid": "2",
+                            "unitname": "u2"
+                        },
+                        {
+                            "unitid": "3",
+                            "unitname": "u3"
+                        },
+                        {
+                            "unitid": "4",
+                            "unitname": "u4"
+                        },
+                        {
+                            "unitid": "5",
+                            "unitname": "u5"
+                        },
+                        {
+                            "unitid": "6",
+                            "unitname": "u6"
+                        }
+                    ]
+                },
+                {
+                    "trackid": "2",
+                    "trackname": "j2",
+                    "units": [
+                        {
+                            "unitid": "7",
+                            "unitname": "u1"
+                        },
+                        {
+                            "unitid": "8",
+                            "unitname": "u2"
+                        },
+                        {
+                            "unitid": "9",
+                            "unitname": "u3"
+                        },
+                        {
+                            "unitid": "10",
+                            "unitname": "u4"
+                        },
+                        {
+                            "unitid": "11",
+                            "unitname": "u5"
+                        }
+                    ]
+                },
+                {
+                    "trackid": "3",
+                    "trackname": "j3",
+                    "units": [
+                        {
+                            "unitid": "12",
+                            "unitname": "u1"
+                        },
+                        {
+                            "unitid": "13",
+                            "unitname": "u2"
+                        },
+                        {
+                            "unitid": "14",
+                            "unitname": "u3"
+                        },
+                        {
+                            "unitid": "15",
+                            "unitname": "u4"
+                        },
+                        {
+                            "unitid": "16",
+                            "unitname": "u5"
+                        },
+                        {
+                            "unitid": "17",
+                            "unitname": "u6"
+                        },
+                        {
+                            "unitid": "18",
+                            "unitname": "u7"
+                        },
+                        {
+                            "unitid": "19",
+                            "unitname": "u8"
+                        }
+                    ]
+                },
+                {
+                    "trackid": "4",
+                    "trackname": "j4",
+                    "units": [
+                        {
+                            "unitid": "20",
+                            "unitname": "u1"
+                        },
+                        {
+                            "unitid": "21",
+                            "unitname": "u2"
+                        },
+                        {
+                            "unitid": "22",
+                            "unitname": "u3"
+                        }
+                    ]
+                }
+            ]
+        }
+    
+};
     
     return retval;
   };
