@@ -3,7 +3,7 @@
 <head>
 	<title>TTX</title>
 
-  <META HTTP-EQUIV="refresh" CONTENT="15">
+<!--META HTTP-EQUIV="refresh" CONTENT="15"-->
 <A HREF="javascript:history.go(0)"> </A>
 
 
@@ -30,6 +30,14 @@
     border-style: solid;
     font-size: 15px;
     }
+
+    #yard {
+      height: 70px;
+    }
+
+    .space {
+      height: 30px;
+    }
 	</style>
 
 	<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
@@ -41,6 +49,7 @@ thegame = new mygame;
 //create your object 
 function mygame(){
   this.tracks = [];
+  this.yards = [];
 //an object method to say something
   this.sayhello = function (){
     console.log ('hello world');
@@ -51,22 +60,35 @@ function mygame(){
     this.tracks.push(newtrack);
     newtrack.show();
   };
+  this.addyard = function (jsonYard){
+    var newyard = new yard();
+    jQuery.extend(newyard, jsonYard);
+    this.yards.push(newyard);
+    newyard.showYardName();    
+  };
   
+}
+
+function yard(){
+  this.showYardName = function () {
+    var yard = $("#yard");
+    yard.append('<h2>'+this.yardname+'</h2>').trigger('create');
+    console.log("y="+this.yardname);
+  };
 }
 
 function track(){
   var trackid;
-  var trackname;
+  /*var trackname;
   var initialleft;
   var initialtop;
   var yardid;
-  var yardname;
+  var yardname;*/
   this.debug = function (){
      console.log ('my id is: ' + this.trackid);
   };
   this.show = function () {
     var track = $("#track");
-    console.log(this);
     track.append('<div><button class="button">'+this.trackname+'</button></div>').trigger('create');
     //("<img id='"+this.cssid+"' src='"+this.imgsrc+"'/>");
     this.element = $("#" + this.cssid);
@@ -80,155 +102,20 @@ function track(){
 }
 
 $(document).ready (function(){
+  
   var server = new ajaxServiceLayer();
   var tracksFromJSON = server.gettracks();
+  console.log(tracksFromJSON.yards);
   for (i=0;i<tracksFromJSON.yards.tracks.length;i++){
-    console.log(i);
-    thegame.addtrack(tracksFromJSON[i]);
-  }
-  
+    
+    thegame.addtrack(tracksFromJSON.yards.tracks[i]);
+  };
+  thegame.addyard(tracksFromJSON.yards);
 });
 
 
 function ajaxServiceLayer(){
-  this.gettrack = function(){
-    //name the return value
-    var retval;
-    /*
-    $.get("getball.aspx")
-      .done(function(data){
-        retval = JSON.parse(data);
-      });
-    */
-    //fake the server for now
-    //http://www.w3schools.com/json/json_syntax.asp
-    retval = {
-    "yards": 
-        {
-            "yardid": "1",
-            "yardname": "Yard1",
-            "yardlocation": "location1",
-            "tracks": [
-                {
-                    "trackid": "1",
-                    "trackname": "j1",
-                    "units": [
-                        {
-                            "unitid": "1",
-                            "unitname": "u1"
-                        },
-                        {
-                            "unitid": "2",
-                            "unitname": "u2"
-                        },
-                        {
-                            "unitid": "3",
-                            "unitname": "u3"
-                        },
-                        {
-                            "unitid": "4",
-                            "unitname": "u4"
-                        },
-                        {
-                            "unitid": "5",
-                            "unitname": "u5"
-                        },
-                        {
-                            "unitid": "6",
-                            "unitname": "u6"
-                        }
-                    ]
-                },
-                {
-                    "trackid": "2",
-                    "trackname": "j2",
-                    "units": [
-                        {
-                            "unitid": "7",
-                            "unitname": "u1"
-                        },
-                        {
-                            "unitid": "8",
-                            "unitname": "u2"
-                        },
-                        {
-                            "unitid": "9",
-                            "unitname": "u3"
-                        },
-                        {
-                            "unitid": "10",
-                            "unitname": "u4"
-                        },
-                        {
-                            "unitid": "11",
-                            "unitname": "u5"
-                        }
-                    ]
-                },
-                {
-                    "trackid": "3",
-                    "trackname": "j3",
-                    "units": [
-                        {
-                            "unitid": "12",
-                            "unitname": "u1"
-                        },
-                        {
-                            "unitid": "13",
-                            "unitname": "u2"
-                        },
-                        {
-                            "unitid": "14",
-                            "unitname": "u3"
-                        },
-                        {
-                            "unitid": "15",
-                            "unitname": "u4"
-                        },
-                        {
-                            "unitid": "16",
-                            "unitname": "u5"
-                        },
-                        {
-                            "unitid": "17",
-                            "unitname": "u6"
-                        },
-                        {
-                            "unitid": "18",
-                            "unitname": "u7"
-                        },
-                        {
-                            "unitid": "19",
-                            "unitname": "u8"
-                        }
-                    ]
-                },
-                {
-                    "trackid": "4",
-                    "trackname": "j4",
-                    "units": [
-                        {
-                            "unitid": "20",
-                            "unitname": "u1"
-                        },
-                        {
-                            "unitid": "21",
-                            "unitname": "u2"
-                        },
-                        {
-                            "unitid": "22",
-                            "unitname": "u3"
-                        }
-                    ]
-                }
-            ]
-        }
-    
-};
-    
-    return retval;
-  };
-
+  
   this.gettracks = function(){
     //name the return value
     var retval;
@@ -392,7 +279,7 @@ function ajaxServiceLayer(){
              <input type="text" placeholder="Search..." required>
             <input type="button" value="Search">
 </form>
-  '<br><h1 align="center">'+this.yardname+'</h1></br>'
+  <div id="yard" align="center"></div>
 	 <div id="track"> </div>
 
 </body>
