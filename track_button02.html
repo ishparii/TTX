@@ -36,7 +36,7 @@
     }
 
     .space {
-      height: 30px;
+      height: 15px;
     }
 	</style>
 
@@ -89,7 +89,7 @@ function track(){
   };
   this.show = function () {
     var track = $("#track");
-    track.append('<div><button class="button">'+this.trackname+'</button></div>').trigger('create');
+    track.append('<div><button class="button" id="'+this.trackid+'">'+this.trackname+'</button></div><div class="space"></div>').trigger('create');
     //("<img id='"+this.cssid+"' src='"+this.imgsrc+"'/>");
     this.element = $("#" + this.cssid);
     //this.element.css({display: 'block', position:'absolute',left:this.initialleft,top:this.initialtop });
